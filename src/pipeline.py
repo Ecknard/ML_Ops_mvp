@@ -43,7 +43,7 @@ def build_preprocessor(feat_cfg: dict) -> ColumnTransformer:
                 "onehot",
                 OneHotEncoder(
                     handle_unknown="infrequent_if_exist",
-                    min_frequency=feat_cfg.get("categorical_min_frequency", 0.01),
+                    min_frequency=feat_cfg.get("categorical_min_frequency", 0.01),sparse_output=False
                 ),
             ),
         ]
