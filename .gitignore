@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+artifacts/
+mlruns/
+mlflow.db
+logs/
+.env
+.pytest_cache/
+.ruff_cache/
+deploy/space/config.json

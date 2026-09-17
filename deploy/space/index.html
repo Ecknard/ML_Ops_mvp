@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Adult Income Classifier</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/ort.min.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+    label { display: block; margin-top: 0.75rem; font-size: 0.9rem; }
+    input, select { width: 100%; padding: 0.4rem; box-sizing: border-box; }
+    button { margin-top: 1.5rem; padding: 0.6rem 1.2rem; cursor: pointer; }
+    #result { margin-top: 1.5rem; padding: 1rem; border-radius: 8px; background: #f3f4f6; }
+    #meta { font-size: 0.8rem; color: #666; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <h1>Adult Income Classifier</h1>
+  <p>Prédit si un profil déclare un revenu annuel &gt; 50 000 $. Le modèle
+     tourne entièrement dans ce navigateur (ONNX Runtime Web) — aucune
+     donnée n'est envoyée à un serveur.</p>
+
+  <form id="predict-form">
+    <label>Âge <input type="number" name="age" value="35" required></label>
+    <label>Années d'études (education_num) <input type="number" name="education_num" value="10" required></label>
+    <label>Heures / semaine <input type="number" name="hours_per_week" value="40" required></label>
+    <label>Gain en capital <input type="number" name="capital_gain" value="0"></label>
+    <label>Perte en capital <input type="number" name="capital_loss" value="0"></label>
+    <label>Statut marital <input type="text" name="marital_status" value="Married-civ-spouse"></label>
+    <label>Profession <input type="text" name="occupation" value="Exec-managerial"></label>
+    <label>Secteur <input type="text" name="workclass" value="Private"></label>
+    <button type="submit">Prédire</button>
+  </form>
+
+  <div id="result" hidden></div>
+  <div id="meta"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

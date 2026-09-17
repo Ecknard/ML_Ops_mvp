@@ -1,0 +1,93 @@
+# Configuration unique du pipeline. Changer de modèle ou de features
+# ne touche jamais au code, uniquement ce fichier.
+
+data:
+  # URL officielle UCI ML Repository. `make data` télécharge et concatène
+  # adult.data + adult.test dans data/raw.csv
+  train_url: "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
+  test_url: "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test"
+  raw_path: "data/raw.csv"
+  columns:
+    - age
+    - workclass
+    - fnlwgt
+    - education
+    - education_num
+    - marital_status
+    - occupation
+    - relationship
+    - race
+    - sex
+    - capital_gain
+    - capital_loss
+    - hours_per_week
+    - native_country
+    - income
+  target: income
+  positive_label: ">50K"
+
+validation:
+  min_rows: 1000
+  max_missing_rate: 0.15
+  min_positive_rate: 0.05
+  max_positive_rate: 0.60
+
+split:
+  test_size: 0.2
+  random_state: 42
+  stratify: true
+
+features:
+  # fnlwgt : poids d'échantillonnage du recensement, pas une caractéristique
+  # de l'individu -> exclue pour ne pas biaiser le modèle.
+  # education : redondante avec education_num (même info, déjà ordinale).
+  drop:
+    - fnlwgt
+    - education
+  numeric:
+    - age
+    - education_num
+    - hours_per_week
+  # distributions très asymétriques (beaucoup de zéros, quelques valeurs
+  # extrêmes) -> transformation log1p avant standardisation
+  numeric_log:
+    - capital_gain
+    - capital_loss
+  categorical:
+    - workclass
+    - marital_status
+    - occupation
+    - relationship
+    - race
+    - sex
+    - native_country
+  # native_country a 41 modalités ; les catégories rares sont regroupées
+  # pour éviter un One-Hot inutilement large et instable sur peu de données
+  categorical_min_frequency: 0.01
+
+model:
+  type: histgradientboosting   # logreg | random_forest | histgradientboosting
+  param_grid:
+    logreg:
+      classifier__C: [0.1, 1.0, 10.0]
+    random_forest:
+      classifier__n_estimators: [200, 400]
+      classifier__min_samples_leaf: [1, 5]
+    histgradientboosting:
+      classifier__learning_rate: [0.05, 0.1]
+      classifier__max_iter: [200, 400]
+      classifier__max_leaf_nodes: [15, 31]
+  cv_folds: 5
+  scoring: roc_auc
+
+mlflow:
+  tracking_uri: "sqlite:///mlflow.db"
+  experiment_name: "adult-income"
+  registered_model_name: "AdultIncomeClassifier"
+  promotion:
+    min_improvement: 0.001   # le challenger doit battre le champion d'au moins ça
+
+paths:
+  artifacts_dir: "artifacts"
+  model_path: "artifacts/model.joblib"
+  model_meta_path: "artifacts/model_meta.json"
