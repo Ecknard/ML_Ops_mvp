@@ -9,7 +9,7 @@ champion/challenger), API FastAPI conteneurisée, et publication optionnelle
 du modèle champion sur le Hugging Face Hub avec une démo qui tourne dans le
 navigateur.
 
-Projet réalisé dans le cadre du cours MLOps (M2 Campus Cyber). Le dataset
+Projet réalisé dans le cadre du cours MLOps. Le dataset
 et le squelette de départ suivent la consigne du cours ; l'implémentation,
 les choix de conception et la gouvernance de modèle (seuil optimisé,
 promotion conditionnelle, contrat de version, détection de dérive) sont
@@ -23,11 +23,6 @@ make data ──▶ make validate ──▶ make train ──▶ make promote �
 ```
 
 ---
-
-## Pourquoi ce projet est construit ainsi
-
-Cette section documente les décisions, pas seulement les commandes —
-c'est ce qui distingue un projet compris d'un projet copié.
 
 ### Le dataset : UCI Adult Income
 
@@ -288,5 +283,10 @@ de la CI (voir `.github/workflows/ci.yml`).
 - **Export ONNX validé numériquement**, pas seulement "converti sans
   erreur" — la validation compare les probabilités, pas juste l'absence
   d'exception.
+
+
+## Lien vers HF
+
+- https://huggingface.co/spaces/mensahkodjosamuel/adult-income-classifier-demo
 
 
