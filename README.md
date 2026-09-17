@@ -257,12 +257,6 @@ Mise en place (une fois) : secret `HF_TOKEN` dans l'environment GitHub
 chaque tag `v*` poussé déclenche automatiquement le job `deploy-huggingface`
 de la CI (voir `.github/workflows/ci.yml`).
 
-**Limite assumée** : l'export ONNX n'a été validé que sur le chemin
-numérique + catégoriel standard du pipeline ; si `OneHotEncoder(min_frequency=...)`
-change de comportement selon la version de `skl2onnx`, l'échec est détecté
-par la validation automatique (`make export-onnx` s'arrête si l'écart
-dépasse 1e-4) plutôt que de publier silencieusement un modèle incohérent.
-
 ---
 
 ## CI (GitHub Actions)
@@ -295,13 +289,4 @@ dépasse 1e-4) plutôt que de publier silencieusement un modèle incohérent.
   erreur" — la validation compare les probabilités, pas juste l'absence
   d'exception.
 
-## Limites connues
 
-- Pas de détection de dérive ni de monitoring temps réel dans cette
-  version (hors périmètre retenu pour ce livrable) — le contrat
-  `model_meta.json` et la traçabilité par `run_id` posent la base
-  nécessaire pour l'ajouter sans tout redesigner.
-- Le dataset contient des attributs sensibles (`sex`, `race`) avec des
-  taux de base très différents (héritage des données de 1994) : ce modèle
-  ne devrait pas être utilisé pour une décision réelle sans une analyse
-  d'équité approfondie par sous-groupe.
