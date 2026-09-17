@@ -32,7 +32,6 @@ def build_preprocessor(feat_cfg: dict) -> ColumnTransformer:
     numeric_log_pipe = Pipeline(
         [
             ("impute", SimpleImputer(strategy="median")),
-            ("log1p", FunctionTransformer(np.log1p, feature_names_out="one-to-one")),
             ("scale", StandardScaler()),
         ]
     )
